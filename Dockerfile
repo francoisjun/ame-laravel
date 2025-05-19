@@ -22,8 +22,6 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN php artisan key:generate
-
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
