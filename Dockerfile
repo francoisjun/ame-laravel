@@ -1,3 +1,9 @@
+FROM 22.16.0-bullseye as build
+
+WORKDIR /builder
+COPY . .
+RUN npm install && npm run build
+
 FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
@@ -25,6 +31,8 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
+
+COPY --from=build /builder/public/build ./public/build
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
